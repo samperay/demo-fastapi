@@ -8,7 +8,7 @@ job('demo-fastapi') {
     steps {
         dockerBuildAndPublish {
             repositoryName('sunlnx/demo-fastapi')
-            tag('${GIT_REVISION,length=9}')
+            tag('${GIT_REVISION,length=7}')
             registryCredentials('dockerhub')
             forcePull(false)
             forceTag(false)
