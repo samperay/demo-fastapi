@@ -1,4 +1,4 @@
-job('FastAPI Demo Example') {
+job('jenkins-test-dsl-project') {
     scm {
         git('https://github.com/samperay/demo-fastapi.git') {  node -> // is hudson.plugins.git.GitSCM
             node / gitConfigName('samperay')
@@ -13,6 +13,6 @@ job('FastAPI Demo Example') {
     //                      // Manage Jenkins -> Configure Tools -> NodeJS Installations -> Name
     // }
     steps {
-        shell("echo testing dsl job")
+        shell("test creation of jenkins sample dsl project")
     }
 }

@@ -1,5 +1,3 @@
-
-
 job('demo-fastapi') {
     scm {
         git('https://github.com/samperay/demo-fastapi.git') {

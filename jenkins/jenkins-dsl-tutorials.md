@@ -2,6 +2,7 @@
   - [Demo project](#demo-project)
   - [Plugins installed](#plugins-installed)
   - [Build step](#build-step)
+- [References](#references)
 
 
 # Jenkins DSL
@@ -28,5 +29,7 @@ Docker Hub Registry Credentials: Dashboard -> Manage Jenkins -> Manager Credenti
 
 You will be able from the jenkins console that you might have built image and pushed to docker hub repository.
 
+# References 
 
+Jenkins dsl plugins documentation - https://jenkinsci.github.io/job-dsl-plugin/#
 
