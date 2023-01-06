@@ -35,8 +35,7 @@ pipeline {
           stage('clone repo') {
             steps {
                 checkout scm
-                sh "git rev-parse --short HEAD > .git/commit-id"
-                commit_id = readFile('.git/commit-id').trim()
+                sh 'commit_id=git rev-parse --short HEAD'
             }
         }
 
@@ -55,8 +54,8 @@ pipeline {
           stage('build-push image') {
                steps {
                     withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v2/') {
-                        sh 'docker build -f Dockerfile -t $DOCKERHUB_REPO:$BUILD_ID .'
-                        sh 'docker push $DOCKERHUB_REPO:$BUILD_ID'
+                        sh 'docker build -f Dockerfile -t $DOCKERHUB_REPO:$commit_id .'
+                        sh 'docker push $DOCKERHUB_REPO:$commit_id'
                     }
                }
 
