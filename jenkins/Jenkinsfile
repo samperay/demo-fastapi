@@ -7,13 +7,14 @@ node {
      }
 
      stage('install libs') {
-          sh 'python3 -m env env'
-          sh 'pip install -r requirements.txt'
+          sh 'python3 -m venv venv'
           sh 'source ./venv/bin/activate'
+          sh 'pip install -r requirements.txt'
+          
      }
 
      stage('tests') {
-          sh 'pytest ./tests/'
+          sh 'pytest -v ./tests/test_main.py --disable-warnings'
      }
 
      // stage('docker build/push') {
