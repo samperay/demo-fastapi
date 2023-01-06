@@ -27,15 +27,30 @@
 pipeline {
     agent any
 
-    stages {
+     environment {
+        BUILD_VERSION = sh (script: 'date +"%Y-%m-%d-${BUILD_ID}"', returnStdout: true).trim()
+        IMAGE_TAG = "$BUILD_VERSION"
+        REGISTRY = "https://index.docker.io/v2/"
+        DOCKERHUB_REPO = "sunlnx/demo-fastapi"
+    }
 
+    stages {
           stage('clone repo') {
             steps {
-                def commit_id
                 checkout scm
-                sh "git rev-parse --short HEAD > .git/commit-id" 
-                commit_id = readFile('.git/commit-id').trim()
             }
         }
+
+          stage('install libs') {
+               steps {
+                    sh 'pip3 install -r requirements.txt'
+               }        
+          }
+
+          stage('tests') {
+               steps {
+                    sh 'pytest-3 -v ./tests/test_main.py --disable-warnings'
+               }
+          }
     }
 }
