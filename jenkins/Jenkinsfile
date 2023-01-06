@@ -7,11 +7,11 @@ node {
      }
 
      stage('install libs') {
-          sh 'pip install -r requirements.txt'
+          sh 'pip3 install -r requirements.txt'
      }
 
      stage('tests') {
-          sh 'pytest -v ./tests/test_main.py --disable-warnings'
+          sh 'pytest-3 -v ./tests/test_main.py --disable-warnings'
      }
 
      // stage('docker build/push') {
