@@ -7,16 +7,18 @@ node {
      }
 
      stage('install libs') {
-     sh "pip install pytest"
+          sh 'python3 -m env env'
+          sh 'pip install -r requirements.txt'
+          sh 'source ./venv/bin/activate'
      }
 
      stage('tests') {
-     sh 'pytest -v ./tests/'
+          sh 'pytest ./tests/'
      }
 
-     stage('docker build/push') {
-        docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-        def app = docker.build("sunlnx/demo-fastapi:${commit_id}", '.').push()
-        }
-     }
+     // stage('docker build/push') {
+     //    docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+     //    def app = docker.build("sunlnx/demo-fastapi:${commit_id}", '.').push()
+     //    }
+     // }
 }
