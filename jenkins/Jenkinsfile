@@ -14,9 +14,9 @@ node {
           sh 'pytest-3 -v ./tests/test_main.py --disable-warnings'
      }
 
-     // stage('docker build/push') {
-     //    docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-     //    def app = docker.build("sunlnx/demo-fastapi:${commit_id}", '.').push()
-     //    }
-     // }
+     stage('docker build/push') {
+        docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+        def app = docker.build("sunlnx/demo-fastapi:${commit_id}", '.').push()
+        }
+     }
 }
