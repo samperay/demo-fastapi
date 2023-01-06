@@ -29,6 +29,7 @@ pipeline {
 
      environment {
         DOCKERHUB_REPO = "sunlnx/demo-fastapi"
+        COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse HEAD')
     }
 
     stages {
@@ -55,8 +56,8 @@ pipeline {
           stage('build-push image') {
                steps {
                     withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v2/') {
-                        sh 'docker build -f Dockerfile -t $DOCKERHUB_REPO:$commit_id .'
-                        sh 'docker push $DOCKERHUB_REPO:$commit_id'
+                        sh 'docker build -f Dockerfile -t $DOCKERHUB_REPO:$COMMIT_ID .'
+                        sh 'docker push $DOCKERHUB_REPO:$COMMIT_ID'
                     }
                }
 
