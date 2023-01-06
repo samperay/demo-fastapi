@@ -28,7 +28,6 @@ pipeline {
     agent any
 
      environment {
-        DOCKER_REGISTRY = "https://index.docker.io/v2/"
         DOCKERHUB_REPO = "sunlnx/demo-fastapi"
     }
 
@@ -53,7 +52,7 @@ pipeline {
 
           stage('build-push image') {
                steps {
-                    withDockerRegistry(credentialsId: 'dockerhub', url: $DOCKER_REGISTRY) {
+                    withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v2/') {
                         sh 'docker build -f Dockerfile -t $DOCKERHUB_REPO:$BUILD_ID .'
                         sh 'docker push $DOCKERHUB_REPO:$BUILD_ID'
                     }
