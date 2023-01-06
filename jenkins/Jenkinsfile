@@ -1,22 +1,41 @@
-node {
-     def commit_id
-     stage('clone repo') {
-        checkout scm
-        sh "git rev-parse --short HEAD > .git/commit-id"                        
-        commit_id = readFile('.git/commit-id').trim()
-     }
 
-     stage('install libs') {
-          sh 'pip3 install -r requirements.txt'
-     }
+// One way of doing
 
-     stage('tests') {
-          sh 'pytest-3 -v ./tests/test_main.py --disable-warnings'
-     }
+// node {
+//      def commit_id
+//      stage('clone repo') {
+//         checkout scm
+//         sh "git rev-parse --short HEAD > .git/commit-id"                        
+//         commit_id = readFile('.git/commit-id').trim()
+//      }
 
-     stage('docker build/push') {
-        docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-        def app = docker.build("sunlnx/demo-fastapi:${commit_id}", '.').push()
+//      stage('install libs') {
+//           sh 'pip3 install -r requirements.txt'
+//      }
+
+//      stage('tests') {
+//           sh 'pytest-3 -v ./tests/test_main.py --disable-warnings'
+//      }
+
+//      stage('docker build/push') {
+//         docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+//         def app = docker.build("sunlnx/demo-fastapi:${commit_id}", '.').push()
+//         }
+//      }
+// }
+
+pipeline {
+    agent any
+
+    stages {
+
+          stage('clone repo') {
+            steps {
+                def commit_id
+                checkout scm
+                sh "git rev-parse --short HEAD > .git/commit-id" 
+                commit_id = readFile('.git/commit-id').trim()
+            }
         }
-     }
+    }
 }
