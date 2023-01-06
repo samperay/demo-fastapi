@@ -35,7 +35,8 @@ pipeline {
           stage('clone repo') {
             steps {
                 checkout scm
-                sh 'commit_id=git rev-parse --short HEAD'
+                sh 'git rev-parse --short HEAD > .git/commit-id'
+                sh 'commit_id=cat .git/commit-id | xargs'
             }
         }
 
