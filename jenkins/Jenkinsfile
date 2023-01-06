@@ -7,9 +7,7 @@ node {
      }
 
      stage('install libs') {
-          steps {
           sh 'pip3 install -r requirements.txt'
-          }
      }
 
      stage('tests') {
