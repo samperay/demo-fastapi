@@ -51,7 +51,7 @@ pipeline {
                }
           }
 
-          stage('build deploy') {
+          stage('build-push image') {
                steps {
                     withDockerRegistry(credentialsId: 'dockerhub', url: $DOCKER_REGISTRY) {
                         sh 'docker build -f Dockerfile -t $DOCKERHUB_REPO:$BUILD_ID .'
