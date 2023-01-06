@@ -7,8 +7,6 @@ node {
      }
 
      stage('install libs') {
-          sh '/usr/bin/python3 -m venv venv'
-          sh '/bin/bash source venv/bin/activate'
           sh 'pip install -r requirements.txt'
      }
 
