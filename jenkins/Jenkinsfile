@@ -29,7 +29,7 @@ pipeline {
 
      environment {
         DOCKERHUB_REPO = "sunlnx/demo-fastapi"
-        COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse HEAD')
+        COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
     }
 
     stages {
