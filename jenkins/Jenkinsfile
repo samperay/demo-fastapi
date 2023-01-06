@@ -54,9 +54,13 @@ pipeline {
           }
 
           stage('build deploy') {
-             docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-             def app = docker.build("sunlnx/demo-fastapi:${BUILD_VERSION}", '.').push()
-            }  
+               steps {
+                    withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v2/') {
+                        sh 'docker build -f Dockerfile -t sunlnx/demo-fastapi:$BUILD_VERSION .'
+                        sh 'docker push sunlnx/demo-fastapi:$BUILD_VERSION'
+                    }
+               }
+
           }
     }
 }
