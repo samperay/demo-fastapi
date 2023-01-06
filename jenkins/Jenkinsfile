@@ -28,9 +28,7 @@ pipeline {
     agent any
 
      environment {
-        BUILD_VERSION = sh (script: 'date +"%Y-%m-%d-${BUILD_ID}"', returnStdout: true).trim()
-        IMAGE_TAG = "$BUILD_VERSION"
-        REGISTRY = "https://index.docker.io/v2/"
+        DOCKER_REGISTRY = "https://index.docker.io/v2/"
         DOCKERHUB_REPO = "sunlnx/demo-fastapi"
     }
 
@@ -55,9 +53,9 @@ pipeline {
 
           stage('build deploy') {
                steps {
-                    withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v2/') {
-                        sh 'docker build -f Dockerfile -t sunlnx/demo-fastapi:$BUILD_VERSION .'
-                        sh 'docker push sunlnx/demo-fastapi:$BUILD_VERSION'
+                    withDockerRegistry(credentialsId: 'dockerhub', url: $DOCKER_REGISTRY) {
+                        sh 'docker build -f Dockerfile -t $DOCKERHUB_REPO:$BUILD_ID .'
+                        sh 'docker push $DOCKERHUB_REPO:$BUILD_ID'
                     }
                }
 
