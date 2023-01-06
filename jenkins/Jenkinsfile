@@ -52,5 +52,11 @@ pipeline {
                     sh 'pytest-3 -v ./tests/test_main.py --disable-warnings'
                }
           }
+
+          stage('build deploy') {
+             docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+             def app = docker.build("sunlnx/demo-fastapi:${BUILD_VERSION}", '.').push()
+            }  
+          }
     }
 }
