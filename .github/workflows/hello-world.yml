@@ -1,9 +1,9 @@
 name: hello world
 run-name: learning github actions
-on: [push]
+on: push
 jobs:
     demo:
         runs-on: ubuntu-latest
         steps:
-            name: first step
-            run: echo "hello world!"
+            - name: first step
+              run: echo "Hello world !"
