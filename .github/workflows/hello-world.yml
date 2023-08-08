@@ -1,5 +1,5 @@
 name: hello world
-run-name: learning github actions
+run-name: hello world
 on: push
 jobs:
     demo:
@@ -7,3 +7,6 @@ jobs:
         steps:
             - name: first step
               run: echo "Hello world !"
+
+            - name: second step
+              run: echo "second step, saying hello again !"
