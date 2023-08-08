@@ -6,7 +6,13 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: first step
+              id: greet
               run: echo "Hello world !"
 
             - name: second step
               run: echo "second step, saying hello again !"
+
+            - name: greet world
+              run: echo "using id to {{ steps.greet.outputs.time }}"
+
+    
