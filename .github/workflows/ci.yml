@@ -1,9 +1,13 @@
-name: python application
+name: ci
 on:
+    pull_request:
+        branches: 
+          - develop
     push:
-        branches: ["master"]
+        branches:
+          - develop
 jobs:
-    preinstall:
+    build:
         runs-on: ubuntu-latest
         steps:
             - name: repository checkout
@@ -20,10 +24,23 @@ jobs:
                 pip install fastapi["all"]
                 if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-            - name: install flake8
-              run: |
-                flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+            - name: code formating
+              run: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-            - name: test with pytest
-              run: |
-                pytest   
+            - name: run testcases
+              run: pytest
+
+            - name: test coverage report
+              run: pytest --cov=./app ./tests
+
+            - name: build fastapi docker image
+              if: github.event_name == 'push'
+              run: docker build -t '${{ secrets.DOCKER_LOGIN }}'/fastapi-docker-workflow:'${{ github.sha }}' .
+
+            - name: login to dockerhub
+              if: github.event_name == 'push'
+              run: docker login --username '${{ secrets.DOCKER_LOGIN }}' --password '${{ secrets.DOCKER_PASSWORD }}'
+
+            - name: push image to dockerhub
+              if: github.event_name == 'push'
+              run: docker push '${{ secrets.DOCKER_LOGIN }}'/fastapi-docker-workflow:'${{ github.sha }}'

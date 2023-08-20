@@ -1,3 +1,4 @@
 fastapi[all]
 pytest
 flake8
+pytest-cov
