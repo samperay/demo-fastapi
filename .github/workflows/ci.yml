@@ -45,8 +45,8 @@ jobs:
               uses: actions/upload-artifact@v1
               with:
                 name: code-coverage
-                path: coverage
-                
+                path: ./coverage
+
             - name: build fastapi docker image
               if: github.event_name == 'push'
               run: docker build -t '${{ secrets.DOCKER_LOGIN }}'/demo-fastapi:'${{ github.sha }}' .
