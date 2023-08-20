@@ -35,7 +35,7 @@ jobs:
 
             - name: build fastapi docker image
               if: github.event_name == 'push'
-              run: docker build -t '${{ secrets.DOCKER_LOGIN }}'/fastapi-docker-workflow:'${{ github.sha }}' .
+              run: docker build -t '${{ secrets.DOCKER_LOGIN }}'/demo-fastapi:'${{ github.sha }}' .
 
             - name: login to dockerhub
               if: github.event_name == 'push'
@@ -43,4 +43,4 @@ jobs:
 
             - name: push image to dockerhub
               if: github.event_name == 'push'
-              run: docker push '${{ secrets.DOCKER_LOGIN }}'/fastapi-docker-workflow:'${{ github.sha }}'
+              run: docker push '${{ secrets.DOCKER_LOGIN }}'/demo-fastapi:'${{ github.sha }}'
