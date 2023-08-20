@@ -1,9 +1,9 @@
-name: python application
+name: ci
 on:
     push:
         branches: ["master"]
 jobs:
-    preinstall:
+    build:
         runs-on: ubuntu-latest
         steps:
             - name: repository checkout
