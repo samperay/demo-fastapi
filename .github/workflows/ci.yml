@@ -43,8 +43,6 @@ jobs:
             - name: test coverage report
               run: pytest --cov=./app ./tests
 
-            - name: upload test coverage
-              uses: actions/upload-artifact@v1
-              with:
-                name: code-coverage
-                path: ./.coverage
+            - name: test with pytest
+              run: |
+                pytest   
