@@ -45,4 +45,18 @@ jobs:
 
             - name: test with pytest
               run: |
-                pytest   
+                pytest
+
+            - name: build fastapi docker image
+              if: github.event_name == 'push'
+              run: docker build -t '${{ secrets.DOCKER_LOGIN }}'/demo-fastapi:'${{ github.sha }}' .
+
+            - name: login to dockerhub
+              if: github.event_name == 'push'
+              run: docker login --username '${{ secrets.DOCKER_LOGIN }}' --password '${{ secrets.DOCKER_PASSWORD }}'
+
+            - name: push image to dockerhub
+              if: github.event_name == 'push'
+              run: docker push '${{ secrets.DOCKER_LOGIN }}'/demo-fastapi:'${{ github.sha }}'
+            
+    
