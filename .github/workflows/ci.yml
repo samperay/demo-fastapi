@@ -49,14 +49,25 @@ jobs:
                 name: code-coverage
                 path: ./.coverage
 
-            - name: build fastapi docker image
-              if: github.event_name == 'push'
-              run: docker build -t '${{ secrets.DOCKER_LOGIN }}'/demo-fastapi:'${{ github.sha }}' .
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                node-version: 14
 
-            - name: login to dockerhub
-              if: github.event_name == 'push'
-              run: docker login --username '${{ secrets.DOCKER_LOGIN }}' --password '${{ secrets.DOCKER_PASSWORD }}'
+            - name: Install dependencies
+              run: npm install
 
-            - name: push image to dockerhub
-              if: github.event_name == 'push'
-              run: docker push '${{ secrets.DOCKER_LOGIN }}'/demo-fastapi:'${{ github.sha }}'
+            - name: Run semantic-release
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                DOCKER_USERNAME: ${{ secrets.DOCKER_LOGIN }}
+                DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+              run: npx semantic-release
+
+            - name: Build and Push Docker image
+              uses: docker/build-push-action@v2
+              with:
+                context: .
+                file: Dockerfile
+                push: true
+                tags: ${{ steps.release.outputs.version }}
